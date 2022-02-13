@@ -81,80 +81,148 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _back7;
     #endregion　カード置き場
 
-    /// <summary>カードデッキリスト</summary>
+    /// <summary>
+    /// カードデッキリスト
+    /// </summary>
     public static List<GameObject> cardDeck;
-    /// <summary>Deckリスト</summary>
-    public static List<List<GameObject>> deckList;
-    public static List<GameObject> graveDeck = new List<GameObject>();
-    public static List<GameObject> clubDeck = new List<GameObject>();
-    public static List<GameObject> heartDeck = new List<GameObject>();
-    public static List<GameObject> spadeDeck = new List<GameObject>();
-    public static List<GameObject> diamandDeck = new List<GameObject>();
-    public static List<GameObject> back1Deck = new List<GameObject>();
-    public static List<GameObject> back2Deck = new List<GameObject>();
-    public static List<GameObject> back3Deck = new List<GameObject>();
-    public static List<GameObject> back4Deck = new List<GameObject>();
-    public static List<GameObject> back5Deck = new List<GameObject>();
-    public static List<GameObject> back6Deck = new List<GameObject>();
-    public static List<GameObject> back7Deck = new List<GameObject>();
+    /// <summary>
+    /// Deckリスト
+    /// </summary>
+    public static List<KeyValuePair<string, List<GameObject>>> deckList;
 
-    /// <summary>Y方向のカードのズレ</summary>
-    private const float _cardGapY = 0.0001f;
-    /// <summary>Z方向のカードのズレ</summary>
-    private const float _cardGapZ = -0.02f;
+    public static List<GameObject> graveDeck;
+    public static List<GameObject> clubDeck;
+    public static List<GameObject> heartDeck;
+    public static List<GameObject> spadeDeck;
+    public static List<GameObject> diamondDeck;
+    public static List<GameObject> back1Deck;
+    public static List<GameObject> back2Deck;
+    public static List<GameObject> back3Deck;
+    public static List<GameObject> back4Deck;
+    public static List<GameObject> back5Deck;
+    public static List<GameObject> back6Deck;
+    public static List<GameObject> back7Deck;
+
+    /// <summary>
+    /// Y方向のカードのズレ
+    /// </summary>
+    public static float cardGapY = 0.0001f;
+
+    /// <summary>
+    /// Z方向のカードのズレ
+    /// </summary>
+    public static float cardGapZ = -0.02f;
+
+    /// <summary>
+    /// deckList内のcardDeckのIndex
+    /// </summary>
+    private const int _cardDeckIndex = 12;
+
+    /// <summary>
+    /// Z方向のStartPosの調整定数
+    /// </summary>
+    public const float cardStartPosZ = 0.15f;
 
 
     void Start()
     {
+        graveDeck = new List<GameObject>();
+        clubDeck = new List<GameObject>();
+        heartDeck = new List<GameObject>();
+        spadeDeck = new List<GameObject>();
+        diamondDeck = new List<GameObject>();
+        back1Deck = new List<GameObject>();
+        back2Deck = new List<GameObject>();
+        back3Deck = new List<GameObject>();
+        back4Deck = new List<GameObject>();
+        back5Deck = new List<GameObject>();
+        back6Deck = new List<GameObject>();
+        back7Deck = new List<GameObject>();
+
         // カードデッキにカードの追加
-        cardDeck = new List<GameObject> { _club1, _club2, _club3, _club4, _club5, _club6, _club7, _club8, _club9, _club10, _club11, _club12, _club13,
-                                           _diamond1, _diamond2, _diamond3, _diamond4, _diamond5, _diamond6, _diamond7, _diamond8, _diamond9, _diamond10, _diamond11, _diamond12, _diamond13,
-                                           _heart1, _heart2, _heart3, _heart4, _heart5, _heart6, _heart7, _heart8, _heart9, _heart10, _heart11, _heart12, _heart13,
-                                           _spade1, _spade2, _spade3, _spade4, _spade5, _spade6, _spade7, _spade8, _spade9, _spade10, _spade11, _spade12, _spade13};
-        // Deckリストにデッキの追加
-        deckList = new List<List<GameObject>> { back1Deck, back2Deck, back3Deck, back4Deck, back5Deck, back6Deck, back7Deck,
-                                                clubDeck, heartDeck, spadeDeck, diamandDeck, graveDeck, cardDeck};
+        cardDeck = new List<GameObject>
+        { 
+            _club1, _club2, _club3, _club4, _club5, _club6, _club7, _club8, _club9, _club10, _club11, _club12, _club13,
+            _diamond1, _diamond2, _diamond3, _diamond4, _diamond5, _diamond6, _diamond7, _diamond8, _diamond9, _diamond10, _diamond11, _diamond12, _diamond13,
+            _heart1, _heart2, _heart3, _heart4, _heart5, _heart6, _heart7, _heart8, _heart9, _heart10, _heart11, _heart12, _heart13,
+            _spade1, _spade2, _spade3, _spade4, _spade5, _spade6, _spade7, _spade8, _spade9, _spade10, _spade11, _spade12, _spade13
+        };
+
+        deckList = new List<KeyValuePair<string, List<GameObject>>>()
+        {
+            new KeyValuePair<string, List<GameObject>>("back1Deck", back1Deck),
+            new KeyValuePair<string, List<GameObject>>("back2Deck", back2Deck),
+            new KeyValuePair<string, List<GameObject>>("back3Deck", back3Deck),
+            new KeyValuePair<string, List<GameObject>>("back4Deck", back4Deck),
+            new KeyValuePair<string, List<GameObject>>("back5Deck", back5Deck),
+            new KeyValuePair<string, List<GameObject>>("back6Deck", back6Deck),
+            new KeyValuePair<string, List<GameObject>>("back7Deck", back7Deck),
+            new KeyValuePair<string, List<GameObject>>("clubDeck", clubDeck),
+            new KeyValuePair<string, List<GameObject>>("heartDeck", heartDeck),
+            new KeyValuePair<string, List<GameObject>>("spadeDeck", spadeDeck),
+            new KeyValuePair<string, List<GameObject>>("diamondDeck", diamondDeck),
+            new KeyValuePair<string, List<GameObject>>("graveDeck", graveDeck),
+            new KeyValuePair<string, List<GameObject>>("cardDeck", cardDeck),
+        };
+
         Shuffle();
         CardsArrangement();
     }
-
-    void Update()
-    {
-        
-    }
-
-    
 
     /// <summary>
     /// デッキのシャッフル
     /// </summary>
     private void Shuffle()
     {
-        cardDeck = cardDeck.OrderBy(card => Guid.NewGuid()).ToList();
+        deckList[_cardDeckIndex].Value = cardDeck.OrderBy(card => Guid.NewGuid()).ToList();
     }
 
     /// <summary>
-    /// deckListの更新
+    /// カード移動手順
     /// </summary>
-    /// <param name="deletedCardDeck">削除されたカードがあったデッキ</param>
-    /// <param name="addedCardDeck">追加されたカードのあるデッキ</param>
-    private void ResetCardDeck(List<GameObject> deletedCardDeck, List<GameObject> addedCardDeck)
+    /// <param name="deckPos">移動先Deckの位置</param>
+    /// <param name="deckCapa">移動先デッキのキャパ</param>
+    /// <param name="deckName">移動先デッキの名前</param>
+    private void CardPositionMove(Vector3 deckPos, int deckCapa, string deckName)
     {
-        for(var i = 0; i < deckList.Count; i++)
+        // ①カードの移動
+        for (int index = 0; index < deckCapa; index++)
         {
-            // 削除されたカードがあったデッキの更新
-            if (deckList[i] == deletedCardDeck)
-            {
-                deckList.Remove(deletedCardDeck);
-                deckList.Insert(i, deletedCardDeck);
-            }
+            // 移動させるカード
+            var moveCard = deckList[_cardDeckIndex].Value[index];
+            moveCard.transform.position = new Vector3(deckPos.x, deckPos.y + (index + 1) * cardGapY, deckPos.z + cardStartPosZ + index * cardGapZ);
+        }
 
-            // 追加されたカードのあるデッキの更新
-            if (deckList[i] == addedCardDeck)
+        // ➁移動したカードをバックデッキリストへ追加し、元のデッキから削除
+        // deckList内の移動先デッキのIndex
+        int backDeckIndex = 0;
+        for (int index = 0; index < deckCapa; index++)
+        {
+            for (int deckIndex = 0; deckIndex < deckList.Count; deckIndex++)
             {
-                deckList.Remove(addedCardDeck);
-                deckList.Insert(i, addedCardDeck);
+                if (deckList[deckIndex].Key == deckName)
+                {
+                    backDeckIndex = deckIndex;
+                    deckList[deckIndex].Value.Add(deckList[_cardDeckIndex].Value[0]);
+                    deckList[_cardDeckIndex].Value.RemoveAt(0);
+                }
             }
+        }
+
+        // ③移動したカードの回転
+        OpenCard(backDeckIndex);
+    }
+
+    /// <summary>
+    /// デッキ一番上のカードを表向きにする
+    /// </summary>
+    /// <param name="deckIndex">表向きにするカードが所属するデッキ</param>
+    public static void OpenCard(int deckIndex)
+    {
+        int deckLength = deckList[deckIndex].Value.Count;
+        if(deckLength > 0)
+        {
+            deckList[deckIndex].Value[deckLength - 1].transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         }
     }
 
@@ -163,87 +231,20 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void CardsArrangement()
     {
-        Vector3 back1DeckPos = _back1.transform.position;
-        // _back1へ移動
-        for (int index = 0; index < 7; index++)
+        List<BackDeck> backDeckList = new List<BackDeck>()
         {
-            cardDeck[index].transform.position = new Vector3(back1DeckPos.x, back1DeckPos.y + index * _cardGapY, back1DeckPos.z + index * _cardGapZ);
-            // 移動したカードをバックデッキリストへ追加
-            back1Deck.Add(cardDeck[index]);
-            // 移動したカードはデッキリストから削除
-            cardDeck.RemoveAt(index);
-            // deckListの更新
-            ResetCardDeck(cardDeck, back1Deck);
-        }
-        // バックデッキリストの1番上を表向きに
-        back1Deck[back1Deck.Count - 1].transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            new BackDeck(){deckName = nameof(back1Deck), deckPos = _back1.transform.position, deckCapa =7},
+            new BackDeck(){deckName = nameof(back2Deck), deckPos = _back2.transform.position, deckCapa =6},
+            new BackDeck(){deckName = nameof(back3Deck), deckPos = _back3.transform.position, deckCapa =5},
+            new BackDeck(){deckName = nameof(back4Deck), deckPos = _back4.transform.position, deckCapa =4},
+            new BackDeck(){deckName = nameof(back5Deck), deckPos = _back5.transform.position, deckCapa =3},
+            new BackDeck(){deckName = nameof(back6Deck), deckPos = _back6.transform.position, deckCapa =2},
+            new BackDeck(){deckName = nameof(back7Deck), deckPos = _back7.transform.position, deckCapa =1},
+        };
 
-        Vector3 back2DeckPos = _back2.transform.position;
-        // _back2へ移動
-        for (int index = 0; index < 6; index++)
+        foreach (var backDeck in backDeckList)
         {
-            cardDeck[index].transform.position = new Vector3(back2DeckPos.x, back2DeckPos.y + index * _cardGapY, back2DeckPos.z + index * _cardGapZ);
-            back2Deck.Add(cardDeck[index]);
-            cardDeck.RemoveAt(index);
-            ResetCardDeck(cardDeck, back2Deck);
+            CardPositionMove(backDeck.deckPos, backDeck.deckCapa, backDeck.deckName);
         }
-        back2Deck[back2Deck.Count - 1].transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-
-
-        Vector3 back3DeckPos = _back3.transform.position;
-
-        // _back3へ移動
-        for (int index = 0; index < 5; index++)
-        {
-            cardDeck[index].transform.position = new Vector3(back3DeckPos.x, back3DeckPos.y + index * _cardGapY, back3DeckPos.z + index * _cardGapZ);
-            back3Deck.Add(cardDeck[index]);
-            cardDeck.RemoveAt(index);
-            ResetCardDeck(cardDeck, back3Deck);
-        }
-        back3Deck[back3Deck.Count - 1].transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-
-        Vector3 back4DeckPos = _back4.transform.position;
-        // _back4へ移動
-        for (int index = 0; index < 4; index++)
-        {
-            cardDeck[index].transform.position = new Vector3(back4DeckPos.x, back4DeckPos.y + index * _cardGapY, back4DeckPos.z + index * _cardGapZ);
-            back4Deck.Add(cardDeck[index]);
-            cardDeck.RemoveAt(index);
-            ResetCardDeck(cardDeck, back4Deck);
-        }
-        back4Deck[back4Deck.Count - 1].transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-
-        Vector3 back5DeckPos = _back5.transform.position;
-        // _back5へ移動
-        for (int index = 0; index < 3; index++)
-        {
-            cardDeck[index].transform.position = new Vector3(back5DeckPos.x, back5DeckPos.y + index * _cardGapY, back5DeckPos.z + index * _cardGapZ);
-            back5Deck.Add(cardDeck[index]);
-            cardDeck.RemoveAt(index);
-            ResetCardDeck(cardDeck, back5Deck);
-        }
-        back5Deck[back5Deck.Count - 1].transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-
-        Vector3 back6DeckPos = _back6.transform.position;
-        // _back6へ移動
-        for (int index = 0; index < 2; index++)
-        {
-            cardDeck[index].transform.position = new Vector3(back6DeckPos.x, back6DeckPos.y + index * _cardGapY, back6DeckPos.z + index * _cardGapZ);
-            back6Deck.Add(cardDeck[index]);
-            cardDeck.RemoveAt(index);
-            ResetCardDeck(cardDeck, back6Deck);
-        }
-        back6Deck[back6Deck.Count - 1].transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-
-        Vector3 back7DeckPos = _back7.transform.position;
-        // _back7へ移動
-        cardDeck[0].transform.position = new Vector3(back7DeckPos.x, back7DeckPos.y, back7DeckPos.z);
-        back7Deck.Add(cardDeck[0]);
-        cardDeck.RemoveAt(0);
-        ResetCardDeck(cardDeck, back7Deck);
-        back7Deck[back7Deck.Count - 1].transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-
     }
-
-    
 }

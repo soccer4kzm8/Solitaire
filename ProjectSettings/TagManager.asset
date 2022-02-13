@@ -16,6 +16,13 @@ TagManager:
   - heartFront
   - spadeFront
   - diamondFront
+  - back1Deck
+  - back2Deck
+  - back3Deck
+  - back4Deck
+  - back5Deck
+  - back6Deck
+  - back7Deck
   layers:
   - Default
   - TransparentFX
