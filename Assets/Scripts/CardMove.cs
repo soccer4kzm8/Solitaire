@@ -51,7 +51,6 @@ public class CardMove : MonoBehaviour
         // 左クリックを押したとき
         if (Input.GetMouseButtonDown(0))
         {
-
             grabbedCards = new List<GameObject>();
             facedUpCards = new List<GameObject>();
             backupCardsPos = new List<Vector3>();
@@ -86,7 +85,7 @@ public class CardMove : MonoBehaviour
 
                 AddFacedUpCards(rayHitDeck);
 
-                BackUpGrabbingCards(hitOrderedObjs, rayHitDeck, topCard);
+                BackUpGrabbingCards(rayHitDeck, topCard);
             }
         }
     }
@@ -94,20 +93,19 @@ public class CardMove : MonoBehaviour
     /// <summary>
     /// 掴んでいるカードのバックアップ
     /// </summary>
-    /// <param name="hitOrderedObjs">rayが当たったObjリスト。[0]:rayが当たったデッキ内の一番上のカード。Last():rayが当たったデッキ</param>
-    private void BackUpGrabbingCards(List<RaycastHit> hitOrderedObjs, GameObject rayHitDeck, GameObject topCard)
+    private void BackUpGrabbingCards(GameObject rayHitDeck, GameObject topCard)
     {
         // 掴んでいるカードすべてのバックアップ
         // graveDeckから移動できるカードは1枚だけ
         if (rayHitDeck.name == "graveDeck")
         {
             grabbedCards.Add(topCard);
-            backupCardsPos.Add(rayHitDeck.transform.position);
+            backupCardsPos.Add(topCard.transform.position);
         }
         else
         {
             // rayが一番最初に当たったカードは、rayが当たったデッキ内の何番目にあるかを取得？
-           
+
             int rayFirstHitCardIndex = 0;
 
             // rayHitFacedUpCards : rayがhitした表向きのカード
@@ -311,8 +309,8 @@ public class CardMove : MonoBehaviour
     {
         // 移動先デッキ情報
         GameObject addedDeck = hitObjs[deckIndexInHitObjects].transform.gameObject;
-        // 移動先がFrontDeckかどうか
-        bool isFrontDeck = addedDeck.GetComponent<Deck>().isFrontDeck;
+        // 移動先のデッキがFrontかBackかそれ以外か
+        int deckIndex = addedDeck.GetComponent<Deck>().deckIndex;
         // 移動先のDeck名
         string addedDeckName = addedDeck.name;
         // 掴んでいるカードの一番奥の記号
@@ -321,12 +319,12 @@ public class CardMove : MonoBehaviour
         int holdNum = grabbingInnnermostCard.GetComponent<Card>().num;
 
         // FrontDeckに移動させるとき
-        if (isFrontDeck)
+        if (deckIndex == 1)
         {
             return FrontDeckProcess(holdSuit, holdNum, addedDeck);
         }
         // BackDeckに移動させるとき
-        else if (isFrontDeck == false)
+        else if (deckIndex == 0)
         {
             return BackDeckProcess(holdSuit, holdNum, addedDeckName, addedDeck);
         }
@@ -409,7 +407,7 @@ public class CardMove : MonoBehaviour
         {
             if (holdNum == 13)
             {
-                CardTransformForBack(addedDeck);
+                CardTransformForBack(addedDeck, holdNum);
                 return true;
             }
         }
@@ -420,7 +418,7 @@ public class CardMove : MonoBehaviour
 
             if (CheckNum(holdNum, addedDeckName))
             {
-                CardTransformForBack(addedDeck);
+                CardTransformForBack(addedDeck, holdNum);
                 return true;
             }
         }
@@ -548,21 +546,40 @@ public class CardMove : MonoBehaviour
     /// カードの移動
     /// </summary>
     /// <param name="addedDeck">移動先のデッキ情報</param>
-    private void CardTransformForBack(GameObject addedDeck)
+    private void CardTransformForBack(GameObject addedDeck, int holdNum)
     {
-        var deckPos = addedDeck.transform.position;
         // 移動先デッキ
         var addedDeckInDeckList = GetAddedDeckList(GetAddedDeckIndex(addedDeck.name)).Value;
-        float addedDeckLength = addedDeckInDeckList.Count;
-        var topCard = addedDeckInDeckList.Last();
-        Debug.LogError(topCard.name);
+        // カード間の距離を取るための定数
         float indexForGap = 1;
-
-        foreach (var hitFacedUpCard in grabbedCards)
+        if (holdNum != 13)
         {
-            hitFacedUpCard.transform.position = new Vector3(deckPos.x, deckPos.y + (addedDeckLength + indexForGap) * GameManager.cardGapY, addedDeckLength * GameManager.cardGapZ + deckPos.z + GameManager.cardStartPosZ);
-            indexForGap++;
+            // 移動先デッキの一番上のカードの位置
+            var topCardPos = addedDeckInDeckList.Last().transform.position;
+
+            foreach (var hitFacedUpCard in grabbedCards)
+            {
+                // x = 移動先デッキの一番上のカードのx座標
+                // y = 移動先デッキの一番上のカードのy座標 + カード間の距離を取るための定数 × y方向のカードのズレ
+                // z = 移動先デッキの一番上のカードのz座標 + カード間の距離を取るための定数 × z方向のカードのズレ
+                hitFacedUpCard.transform.position = new Vector3(topCardPos.x, topCardPos.y + indexForGap * GameManager.cardGapY, topCardPos.z + indexForGap * GameManager.cardGapZ);
+                indexForGap++;
+            }
         }
+        else
+        {
+            // 移動先デッキの位置
+            var deckPos = addedDeck.transform.position;
+            foreach (var hitFacedUpCard in grabbedCards)
+            {
+                // x = 移動先デッキのx座標
+                // y = 移動先デッキのy座標 + カード間の距離を取るための定数 × y方向のカードのズレ
+                // z = 移動先デッキのz座標 + Z方向のStartPosの調整定数 + (カード間の距離を取るための定数 - 1) × z方向のカードのずれ
+                hitFacedUpCard.transform.position = new Vector3(deckPos.x, deckPos.y + indexForGap * GameManager.cardGapY, deckPos.z + GameManager.cardStartPosZ + (indexForGap - 1) * GameManager.cardGapZ);
+                indexForGap++;
+            }
+        }
+
         ResetDeckList(addedDeck.name);
     }
 
@@ -633,8 +650,11 @@ public class CardMove : MonoBehaviour
     /// <param name="addedDeck">移動先のDeck名</param>
     private void ResetDeckList(string addedDeck)
     {
+        // 移動させるカードが所属しているデッキのDeckList内のIndex
         int belongDeckIndex = GetBelongDeckIndex();
+        // 移動先のデッキのDeckList内のIndex
         int addedDeckIndex = GetAddedDeckIndex(addedDeck);
+        // 移動させるカードが所属しているデッキ
         var belongDeckList = GetBelogDeckList(belongDeckIndex);
         int cardIndex = 0;
         foreach (var card in belongDeckList)
@@ -644,15 +664,18 @@ public class CardMove : MonoBehaviour
                 if (cardIndexInCardList == cardIndex)
                 {
                     // 移動先デッキにカードを追加
-                    GameManager.deckList[addedDeckIndex].Value.Add(belongDeckList.Last());
+                    GameManager.deckList[addedDeckIndex].Value.Add(belongDeckList[cardIndexInCardList]);
                 }
             }
             cardIndex++;
         }
 
         // 移動したカードを所属していたデッキから削除
-        // 複数移動に未対応
-        GameManager.deckList[belongDeckIndex].Value.RemoveAt(belongDeckList.Count - 1);
+        foreach (var cardIndexInCardList in this._cardListIndexList)
+        {
+            GameManager.deckList[belongDeckIndex].Value.Remove(belongDeckList.Last());
+
+        }
 
         // 移動したカードが所属していたデッキの一番上のカードを表向きにする
         GameManager.OpenCard(belongDeckIndex);
