@@ -184,8 +184,9 @@ GameObject:
   - component: {fileID: 62883529}
   - component: {fileID: 62883528}
   - component: {fileID: 62883527}
+  - component: {fileID: 62883532}
   m_Layer: 0
-  m_Name: spedeDeck
+  m_Name: spadeDeck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -308,6 +309,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 62883525}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &62883532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62883525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6a9ffd93be33b409e280ebe27937d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deckName: spadeDeck
+  deckIndex: 1
 --- !u!1001 &69119861
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1114,6 +1129,7 @@ GameObject:
   - component: {fileID: 210128762}
   - component: {fileID: 210128766}
   - component: {fileID: 210128765}
+  - component: {fileID: 210128767}
   m_Layer: 0
   m_Name: clubDeck
   m_TagString: Untagged
@@ -1238,6 +1254,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 210128760}
   m_CullTransparentMesh: 0
+--- !u!114 &210128767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210128760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6a9ffd93be33b409e280ebe27937d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deckName: clubDeck
+  deckIndex: 1
 --- !u!1001 &213383068
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2318,6 +2348,7 @@ GameObject:
   - component: {fileID: 513861159}
   - component: {fileID: 513861158}
   - component: {fileID: 513861157}
+  - component: {fileID: 513861162}
   m_Layer: 0
   m_Name: diamondDeck
   m_TagString: Untagged
@@ -2442,6 +2473,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 513861155}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &513861162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513861155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6a9ffd93be33b409e280ebe27937d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deckName: diamondDeck
+  deckIndex: 1
 --- !u!1 &531872754 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3948913753458471593, guid: f08b8f0e108d7e849aa4f0ee9711475e,
@@ -3004,6 +3049,7 @@ GameObject:
   - component: {fileID: 706280297}
   - component: {fileID: 706280296}
   - component: {fileID: 706280295}
+  - component: {fileID: 706280298}
   m_Layer: 0
   m_Name: back3Deck
   m_TagString: Untagged
@@ -3091,6 +3137,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706280293}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &706280298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706280293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6a9ffd93be33b409e280ebe27937d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deckName: back3Deck
+  deckIndex: 0
 --- !u!1 &735080654
 GameObject:
   m_ObjectHideFlags: 0
@@ -3103,6 +3163,7 @@ GameObject:
   - component: {fileID: 735080658}
   - component: {fileID: 735080657}
   - component: {fileID: 735080656}
+  - component: {fileID: 735080659}
   m_Layer: 0
   m_Name: back4Deck
   m_TagString: Untagged
@@ -3190,6 +3251,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 735080654}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &735080659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735080654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6a9ffd93be33b409e280ebe27937d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deckName: back4Deck
+  deckIndex: 0
 --- !u!1001 &745724602
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3303,6 +3378,7 @@ GameObject:
   - component: {fileID: 751614152}
   - component: {fileID: 751614151}
   - component: {fileID: 751614150}
+  - component: {fileID: 751614154}
   m_Layer: 0
   m_Name: graveDeck
   m_TagString: Untagged
@@ -3398,6 +3474,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 751614148}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &751614154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751614148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6a9ffd93be33b409e280ebe27937d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deckName: graveDeck
+  deckIndex: 2
 --- !u!1 &760017160
 GameObject:
   m_ObjectHideFlags: 0
@@ -4278,6 +4368,7 @@ GameObject:
   - component: {fileID: 853076764}
   - component: {fileID: 853076763}
   - component: {fileID: 853076762}
+  - component: {fileID: 853076767}
   m_Layer: 0
   m_Name: heartDeck
   m_TagString: Untagged
@@ -4402,6 +4493,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 853076760}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &853076767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853076760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6a9ffd93be33b409e280ebe27937d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deckName: heartDeck
+  deckIndex: 1
 --- !u!1 &880481261 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2194625916379401999, guid: f2e2ae48b75ab8c4cafd48f22558099c,
@@ -5619,6 +5724,7 @@ GameObject:
   - component: {fileID: 1149019973}
   - component: {fileID: 1149019972}
   - component: {fileID: 1149019971}
+  - component: {fileID: 1149019974}
   m_Layer: 0
   m_Name: back1Deck
   m_TagString: Untagged
@@ -5706,6 +5812,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1149019969}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1149019974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149019969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6a9ffd93be33b409e280ebe27937d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deckName: back1Deck
+  deckIndex: 0
 --- !u!1001 &1170102673
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6814,6 +6934,7 @@ GameObject:
   - component: {fileID: 1450940941}
   - component: {fileID: 1450940940}
   - component: {fileID: 1450940939}
+  - component: {fileID: 1450940943}
   m_Layer: 0
   m_Name: back7Deck
   m_TagString: Untagged
@@ -6901,6 +7022,20 @@ RectTransform:
   m_AnchoredPosition: {x: -0.5, y: -0.1}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1450940943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1450940938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6a9ffd93be33b409e280ebe27937d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deckName: back7Deck
+  deckIndex: 0
 --- !u!1 &1478683948 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5171526685483169077, guid: 835d300e708af14478bae3e96f5fd26f,
@@ -6962,6 +7097,7 @@ GameObject:
   - component: {fileID: 1482640921}
   - component: {fileID: 1482640920}
   - component: {fileID: 1482640919}
+  - component: {fileID: 1482640922}
   m_Layer: 0
   m_Name: back6Deck
   m_TagString: Untagged
@@ -7049,6 +7185,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1482640917}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1482640922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482640917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6a9ffd93be33b409e280ebe27937d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deckName: back6Deck
+  deckIndex: 0
 --- !u!1 &1488123806 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 877798333468748233, guid: 42603f2e84ec0d940a0fba4737cf9270,
@@ -7894,6 +8044,7 @@ GameObject:
   - component: {fileID: 1713317054}
   - component: {fileID: 1713317053}
   - component: {fileID: 1713317052}
+  - component: {fileID: 1713317055}
   m_Layer: 0
   m_Name: back2Deck
   m_TagString: Untagged
@@ -7981,6 +8132,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1713317050}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1713317055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713317050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6a9ffd93be33b409e280ebe27937d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deckName: back2Deck
+  deckIndex: 0
 --- !u!1 &1713369503 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5157621696908248286, guid: 3ebc3c32e60c5f84b942bdfeded6669d,
@@ -8680,6 +8845,7 @@ GameObject:
   - component: {fileID: 1820476657}
   - component: {fileID: 1820476656}
   - component: {fileID: 1820476655}
+  - component: {fileID: 1820476658}
   m_Layer: 0
   m_Name: back5Deck
   m_TagString: Untagged
@@ -8767,6 +8933,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1820476653}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1820476658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1820476653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6a9ffd93be33b409e280ebe27937d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deckName: back5Deck
+  deckIndex: 0
 --- !u!1 &1841398414 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2859525627050369763, guid: 8c7d6e3bfa2b5524b9506499c21ad9ed,
