@@ -32,10 +32,6 @@ public class CardMove : MonoBehaviour
 
     private UnityEvent onClick;
 
-    //private delegate void OnDelegate();
-    //private OnDelegate onDelegate;
-
-
     private void Start()
     {
         plane = new Plane(Vector3.up, Vector3.up);
@@ -43,13 +39,12 @@ public class CardMove : MonoBehaviour
             onClick = new UnityEvent();
 
         onClick.AddListener(MouseButtonDownAction);
-        //onDelegate += MouseButtonDownAction;
     }
 
     private void Update()
     {
         // 左クリックを押したとき
-        if (Input.GetMouseButtonDown(0)/* && onClick != null*/)
+        if (Input.GetMouseButtonDown(0) && onClick != null)
             onClick.Invoke();
 
         GrabbingAction();
