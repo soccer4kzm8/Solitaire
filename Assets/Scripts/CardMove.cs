@@ -48,6 +48,28 @@ public class CardMove : MonoBehaviour
             onClick.Invoke();
 
         GrabbingAction();
+        if (CompleteCheck())
+        {
+            Debug.Log("クリア");
+        };
+    }
+
+    /// <summary>
+    /// ゲームクリアしたかのチェック
+    /// </summary>
+    private bool CompleteCheck()
+    {
+        foreach(var deck in GameManager.deckList)
+        {
+            foreach(var card in deck.Value)
+            {
+                if(card.transform.rotation == Quaternion.Euler(180f, 0f, 0f))
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /// <summary>
