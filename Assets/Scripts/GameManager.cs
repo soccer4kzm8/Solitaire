@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UniRx;
 
 public class GameManager : MonoBehaviour
 {
@@ -82,6 +83,16 @@ public class GameManager : MonoBehaviour
     #endregion　カード置き場
 
     /// <summary>
+    /// ゲームクリア時のマスク
+    /// </summary>
+    [SerializeField] private GameObject _clearMask;
+
+    /// <summary>
+    /// CardMove
+    /// </summary>
+    [SerializeField] private CardMove _cardMove;
+
+    /// <summary>
     /// カードデッキリスト
     /// </summary>
     public static List<GameObject> cardDeck;
@@ -128,7 +139,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public const float cardStartPosZ = 0.15f;
 
-
     void Start()
     {
         graveDeck = new List<GameObject>();
@@ -174,6 +184,7 @@ public class GameManager : MonoBehaviour
 
         //Shuffle();
         //CardsArrangement();
+        _cardMove.OnClearFlgChanged.Subscribe(_ => _clearMask.SetActive(true));
     }
 
     /// <summary>

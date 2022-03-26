@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using UniRx;
+using System;
 
 public class CardMove : MonoBehaviour
 {
@@ -30,46 +32,51 @@ public class CardMove : MonoBehaviour
     /// <summary>Rayが当たった一番奥にある表向きのカード</summary>
     private GameObject grabbingInnnermostCard;
 
-    private UnityEvent onClick;
+    /// <summary>ゲームクリアしたかのフラグ</summary>
+    public bool isClear = false;
+
+    public Subject<bool> clearSubject = new Subject<bool>();
+
+    public IObservable<bool> OnClearFlgChanged => clearSubject;
+
 
     private void Start()
     {
         plane = new Plane(Vector3.up, Vector3.up);
-        if (onClick == null)
-            onClick = new UnityEvent();
-
-        onClick.AddListener(MouseButtonDownAction);
     }
 
     private void Update()
     {
         // 左クリックを押したとき
-        if (Input.GetMouseButtonDown(0) && onClick != null)
-            onClick.Invoke();
+        if (Input.GetMouseButtonDown(0) && !isClear)
+            MouseButtonDownAction();
 
-        GrabbingAction();
-        if (CompleteCheck())
-        {
-            Debug.Log("クリア");
-        };
+        // カードを掴んでいるとき
+        if (isGrabbing)
+            GrabbingAction();
+
+        // クリアしていないとき
+        if(!isClear)
+            CompleteCheck();
     }
 
     /// <summary>
     /// ゲームクリアしたかのチェック
     /// </summary>
-    private bool CompleteCheck()
+    private void CompleteCheck()
     {
-        foreach(var deck in GameManager.deckList)
+        foreach (var deck in GameManager.deckList)
         {
-            foreach(var card in deck.Value)
+            foreach (var card in deck.Value)
             {
-                if(card.transform.rotation == Quaternion.Euler(180f, 0f, 0f))
+                if (card.transform.rotation == Quaternion.Euler(180f, 0f, 0f))
                 {
-                    return false;
+                    return;
                 }
             }
         }
-        return true;
+        isClear = true;
+        clearSubject.OnNext(isClear);
     }
 
     /// <summary>
@@ -262,30 +269,26 @@ public class CardMove : MonoBehaviour
     /// </summary>
     private void GrabbingAction()
     {
-        // カードを掴んでいるとき
-        if (isGrabbing == true)
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        float rayDistance;
+        // PlaneにRayを飛ばす
+        plane.Raycast(ray, out rayDistance);
+
+        // 掴んでいるカードをRayが当たった位置へ移動
+        int indexForGap = 0;
+        foreach (var hitFacedUpCard in grabbedCards)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            float rayDistance;
-            // PlaneにRayを飛ばす
-            plane.Raycast(ray, out rayDistance);
+            var mousePos = ray.GetPoint(rayDistance);
+            hitFacedUpCard.transform.position = new Vector3(mousePos.x, mousePos.y + indexForGap * GameManager.cardGapY, mousePos.z + indexForGap * GameManager.cardGapZ);
+            indexForGap++;
+        }
 
-            // 掴んでいるカードをRayが当たった位置へ移動
-            int indexForGap = 0;
-            foreach (var hitFacedUpCard in grabbedCards)
-            {
-                var mousePos = ray.GetPoint(rayDistance);
-                hitFacedUpCard.transform.position = new Vector3(mousePos.x, mousePos.y + indexForGap * GameManager.cardGapY, mousePos.z + indexForGap * GameManager.cardGapZ);
-                indexForGap++;
-            }
-
-            // 左クリックを放したとき
-            if (Input.GetMouseButtonUp(0))
-            {
-                // 一時的にrayの可視化
-                Debug.DrawRay(ray.origin, ray.direction * 15.0f, Color.red, 20, false);
-                MouseButtonUp(ray);
-            }
+        // 左クリックを放したとき
+        if (Input.GetMouseButtonUp(0))
+        {
+            // 一時的にrayの可視化
+            Debug.DrawRay(ray.origin, ray.direction * 15.0f, Color.red, 20, false);
+            MouseButtonUp(ray);
         }
     }
 
