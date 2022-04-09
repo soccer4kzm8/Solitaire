@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Z方向のカードのズレ
     /// </summary>
-    public static float cardGapZ = -0.02f;
+    public static float cardGapZ = -20f;
 
     /// <summary>
     /// deckList内のcardDeckのIndex
@@ -137,7 +137,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Z方向のStartPosの調整定数
     /// </summary>
-    public const float cardStartPosZ = 0.15f;
+    public const float cardStartPosZ = 150f;
 
     void Start()
     {
