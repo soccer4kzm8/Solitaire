@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UniRx;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -139,7 +140,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public const float cardStartPosZ = 150f;
 
-    void Start()
+
+    private void Awake()
     {
         graveDeck = new List<GameObject>();
         clubDeck = new List<GameObject>();
@@ -156,7 +158,7 @@ public class GameManager : MonoBehaviour
 
         // カードデッキにカードの追加
         cardDeck = new List<GameObject>
-        { 
+        {
             _club1, _club2, _club3, _club4, _club5, _club6, _club7, _club8, _club9, _club10, _club11, _club12, _club13,
             _heart1, _heart2, _heart3, _heart4, _heart5, _heart6, _heart7, _heart8, _heart9, _heart10, _heart11, _heart12, _heart13,
             _spade1, _spade2, _spade3, _spade4, _spade5, _spade6, _spade7, _spade8, _spade9, _spade10, _spade11, _spade12, _spade13,
@@ -179,7 +181,10 @@ public class GameManager : MonoBehaviour
             new KeyValuePair<string, List<GameObject>>("graveDeck", graveDeck),
             new KeyValuePair<string, List<GameObject>>("cardDeck", cardDeck),
         };
+    }
 
+    private void Start()
+    {
         ShowCompleteGameArrangement();
 
         //Shuffle();
@@ -342,5 +347,10 @@ public class GameManager : MonoBehaviour
         {
             CardPositionMove(backDeck.deckPos, backDeck.deckCapa, backDeck.deckName);
         }
+    }
+
+    public void OnClickRePlayButton()
+    {
+        SceneManager.LoadScene("SampleScene");
     }
 }
