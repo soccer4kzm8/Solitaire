@@ -185,10 +185,10 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        ShowCompleteGameArrangement();
+        //ShowCompleteGameArrangement();
 
-        //Shuffle();
-        //CardsArrangement();
+        Shuffle();
+        CardsArrangement();
         _cardMove.OnClearFlgChanged.Subscribe(_ => _clearMask.SetActive(true));
     }
 

@@ -99,7 +99,7 @@ public class CardMove : MonoBehaviour
             return;
 
         // cardDeckがクリックされたら場合
-        if (hitOrderedObjs.Last().collider.name == "cardDeck")
+        if (hitOrderedObjs.Any(value => value.collider.name == "cardDeck"))
         {
             CardFlip.OnClick_CardDeck();
         }
