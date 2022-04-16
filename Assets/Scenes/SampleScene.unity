@@ -252,7 +252,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u3082\u3046\u4E00\u5EA6\u904A\u3076"
+  m_Text: "\u6700\u521D\u304B\u3089\u904A\u3076"
 --- !u!222 &38404610
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4988,6 +4988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a217dd496c566954daecc821d65a3998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cardFlip: {fileID: 1539417244}
   isClear: 0
 --- !u!1 &969599238 stripped
 GameObject:
@@ -7565,7 +7566,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1539417242}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.001}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 1}
   m_Children: []
   m_Father: {fileID: 1745845567}

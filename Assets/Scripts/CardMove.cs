@@ -8,6 +8,7 @@ using System;
 
 public class CardMove : MonoBehaviour
 {
+    [SerializeField] private CardFlip _cardFlip = null;
     /// <summary>rayとの交点を求めるためのplane</summary>
     private Plane plane;
 
@@ -101,7 +102,7 @@ public class CardMove : MonoBehaviour
         // cardDeckがクリックされたら場合
         if (hitOrderedObjs.Any(value => value.collider.name == "cardDeck"))
         {
-            CardFlip.OnClick_CardDeck();
+            _cardFlip.OnClick_CardDeck();
         }
         else
         {
