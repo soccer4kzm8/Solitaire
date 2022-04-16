@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UniRx;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -82,6 +84,16 @@ public class GameManager : MonoBehaviour
     #endregion　カード置き場
 
     /// <summary>
+    /// ゲームクリア時のマスク
+    /// </summary>
+    [SerializeField] private GameObject _clearMask;
+
+    /// <summary>
+    /// CardMove
+    /// </summary>
+    [SerializeField] private CardMove _cardMove;
+
+    /// <summary>
     /// カードデッキリスト
     /// </summary>
     public static List<GameObject> cardDeck;
@@ -104,6 +116,11 @@ public class GameManager : MonoBehaviour
     public static List<GameObject> back7Deck;
 
     /// <summary>
+    /// backDeckリスト
+    /// </summary>
+    List<BackDeck> backDeckList;
+
+    /// <summary>
     /// Y方向のカードのズレ
     /// </summary>
     public static float cardGapY = 0.0001f;
@@ -111,7 +128,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Z方向のカードのズレ
     /// </summary>
-    public static float cardGapZ = -0.02f;
+    public static float cardGapZ = -20f;
 
     /// <summary>
     /// deckList内のcardDeckのIndex
@@ -121,10 +138,10 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Z方向のStartPosの調整定数
     /// </summary>
-    public const float cardStartPosZ = 0.15f;
+    public const float cardStartPosZ = 150f;
 
 
-    void Start()
+    private void Awake()
     {
         graveDeck = new List<GameObject>();
         clubDeck = new List<GameObject>();
@@ -141,11 +158,11 @@ public class GameManager : MonoBehaviour
 
         // カードデッキにカードの追加
         cardDeck = new List<GameObject>
-        { 
+        {
             _club1, _club2, _club3, _club4, _club5, _club6, _club7, _club8, _club9, _club10, _club11, _club12, _club13,
-            _diamond1, _diamond2, _diamond3, _diamond4, _diamond5, _diamond6, _diamond7, _diamond8, _diamond9, _diamond10, _diamond11, _diamond12, _diamond13,
             _heart1, _heart2, _heart3, _heart4, _heart5, _heart6, _heart7, _heart8, _heart9, _heart10, _heart11, _heart12, _heart13,
-            _spade1, _spade2, _spade3, _spade4, _spade5, _spade6, _spade7, _spade8, _spade9, _spade10, _spade11, _spade12, _spade13
+            _spade1, _spade2, _spade3, _spade4, _spade5, _spade6, _spade7, _spade8, _spade9, _spade10, _spade11, _spade12, _spade13,
+            _diamond1, _diamond2, _diamond3, _diamond4, _diamond5, _diamond6, _diamond7, _diamond8, _diamond9, _diamond10, _diamond11, _diamond12, _diamond13
         };
 
         deckList = new List<KeyValuePair<string, List<GameObject>>>()
@@ -164,9 +181,85 @@ public class GameManager : MonoBehaviour
             new KeyValuePair<string, List<GameObject>>("graveDeck", graveDeck),
             new KeyValuePair<string, List<GameObject>>("cardDeck", cardDeck),
         };
+    }
 
-        Shuffle();
-        CardsArrangement();
+    private void Start()
+    {
+        ShowCompleteGameArrangement();
+
+        //Shuffle();
+        //CardsArrangement();
+        _cardMove.OnClearFlgChanged.Subscribe(_ => _clearMask.SetActive(true));
+    }
+
+    /// <summary>
+    /// 終了画面を表示させるためのテスト用
+    /// </summary>
+    private void ShowCompleteGameArrangement()
+    {
+        deckList[_cardDeckIndex].Value.ForEach(card => 
+        {
+            if (card.GetComponent<Card>().suit == "club")
+            {
+                deckList[0].Value.Insert(0, card);
+            }
+            else if (card.GetComponent<Card>().suit == "heart")
+            {
+                deckList[1].Value.Insert(0, card);
+            }
+            else if (card.GetComponent<Card>().suit == "spade")
+            {
+                deckList[2].Value.Insert(0, card);
+            }
+            else if (card.GetComponent<Card>().suit == "diamond")
+            {
+                deckList[3].Value.Insert(0, card);
+            }
+        });
+
+        // diamondDeckのカード2枚だけbackDeck4に移動
+        for(int i = 12; i > 10; i--)
+        {
+            deckList[4].Value.Insert(0, deckList[3].Value[i]);
+        }
+
+        // cardDeck内にカードがないのですべて削除
+        deckList[_cardDeckIndex].Value.RemoveAll(_ => _);
+
+
+        SetBackDeck();
+
+        // ①club, heart, spadeDeckの移動
+        for (var j = 0; j < 4; j++)
+        {
+            for (int index = 0; index < deckList[j].Value.Count; index++)
+            {
+                // 移動させるカード
+                var moveCard = deckList[j].Value[index];
+                moveCard.transform.position = new Vector3(backDeckList[j].deckPos.x, backDeckList[j].deckPos.y + (index + 1) * cardGapY, backDeckList[j].deckPos.z + cardStartPosZ + index * cardGapZ);
+                moveCard.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            }
+        }
+        
+        // ②diamondDeckの移動（2枚残し）
+        for(int i = 0; i < 2; i++)
+        {
+            var moveCard = deckList[3].Value[i];
+            moveCard.transform.position = new Vector3(_back4.transform.position.x, _back4.transform.position.y + (i + 1) * cardGapY, _back4.transform.position.z + cardStartPosZ + i * cardGapZ);
+            moveCard.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        }
+
+        // ③diamondDeckの2を裏向きに
+        var moveCardLast = deckList[4].Value[0];
+        moveCardLast.transform.position = new Vector3(_back5.transform.position.x, _back5.transform.position.y + cardGapY, _back5.transform.position.z + cardStartPosZ);
+        moveCardLast.transform.rotation = Quaternion.Euler(180f, 0f, 0f);
+        
+        // ④diamondDeckの1を表向きに
+        var moveCardSecondFromLast = deckList[4].Value[1];
+        moveCardSecondFromLast.transform.position = new Vector3(_back5.transform.position.x, _back5.transform.position.y + 2 * cardGapY, _back5.transform.position.z + cardStartPosZ + cardGapZ);
+
+        // backDeckに入っているdiamondの1, 2を削除
+        deckList[3].Value.RemoveAll(card => card.GetComponent<Card>().num == 1 || card.GetComponent<Card>().num == 2);
     }
 
     /// <summary>
@@ -227,11 +320,11 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// デッキのカード配り
+    /// backDeckの初期化
     /// </summary>
-    private void CardsArrangement()
+    private void SetBackDeck()
     {
-        List<BackDeck> backDeckList = new List<BackDeck>()
+        backDeckList = new List<BackDeck>()
         {
             new BackDeck(){deckName = nameof(back1Deck), deckPos = _back1.transform.position, deckCapa =7},
             new BackDeck(){deckName = nameof(back2Deck), deckPos = _back2.transform.position, deckCapa =6},
@@ -241,10 +334,23 @@ public class GameManager : MonoBehaviour
             new BackDeck(){deckName = nameof(back6Deck), deckPos = _back6.transform.position, deckCapa =2},
             new BackDeck(){deckName = nameof(back7Deck), deckPos = _back7.transform.position, deckCapa =1},
         };
+    }
+
+    /// <summary>
+    /// デッキのカード配り
+    /// </summary>
+    private void CardsArrangement()
+    {
+        SetBackDeck();
 
         foreach (var backDeck in backDeckList)
         {
             CardPositionMove(backDeck.deckPos, backDeck.deckCapa, backDeck.deckName);
         }
+    }
+
+    public void OnClickRePlayButton()
+    {
+        SceneManager.LoadScene("SampleScene");
     }
 }
