@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -118,7 +119,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// backDeckリスト
     /// </summary>
-    List<BackDeck> backDeckList;
+    private List<BackDeck> backDeckList;
 
     /// <summary>
     /// Y方向のカードのズレ
@@ -139,6 +140,11 @@ public class GameManager : MonoBehaviour
     /// Z方向のStartPosの調整定数
     /// </summary>
     public const float cardStartPosZ = 150f;
+
+    /// <summary>
+    /// カード配りのカードの動くスピード
+    /// </summary>
+    private const float cardMoveSpeed = 50f;
 
 
     private void Awake()
@@ -283,7 +289,17 @@ public class GameManager : MonoBehaviour
         {
             // 移動させるカード
             var moveCard = deckList[_cardDeckIndex].Value[index];
-            moveCard.transform.position = new Vector3(deckPos.x, deckPos.y + (index + 1) * cardGapY, deckPos.z + cardStartPosZ + index * cardGapZ);
+            // 移動先
+            var targetPos = new Vector3(deckPos.x, deckPos.y + (index + 1) * cardGapY, deckPos.z + cardStartPosZ + index * cardGapZ);
+            var stop = false;
+            this.UpdateAsObservable()
+                .TakeWhile(_ => !stop)
+                .Subscribe(_ =>
+                {
+                    moveCard.transform.position = Vector3.MoveTowards(moveCard.transform.position, targetPos, cardMoveSpeed);
+                    if (moveCard.transform.position == targetPos)
+                        stop = true;
+                });
         }
 
         // ➁移動したカードをバックデッキリストへ追加し、元のデッキから削除
