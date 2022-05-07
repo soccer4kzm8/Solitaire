@@ -43,7 +43,7 @@ public class CardMove : MonoBehaviour
 
     private void Start()
     {
-        plane = new Plane(Vector3.up, Vector3.up);
+        plane = new Plane(Vector3.up, new Vector3(0, 100, 0));
     }
 
     private void Update()

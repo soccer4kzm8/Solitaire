@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Y方向のカードのズレ
     /// </summary>
-    public static float cardGapY = 0.0001f;
+    public static float cardGapY = 0.1f;
 
     /// <summary>
     /// Z方向のカードのズレ
