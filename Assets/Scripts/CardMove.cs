@@ -280,7 +280,7 @@ public class CardMove : MonoBehaviour
         foreach (var hitFacedUpCard in grabbedCards)
         {
             var mousePos = ray.GetPoint(rayDistance);
-            hitFacedUpCard.transform.position = new Vector3(mousePos.x, mousePos.y + indexForGap * GameManager.cardGapY, mousePos.z + indexForGap * GameManager.cardGapZ);
+            hitFacedUpCard.transform.position = new Vector3(mousePos.x, 100f + indexForGap * GameManager.cardGapY, mousePos.z + indexForGap * GameManager.cardGapZ);
             indexForGap++;
         }
 
