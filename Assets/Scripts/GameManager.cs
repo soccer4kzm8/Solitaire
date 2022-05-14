@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Y方向のカードのズレ
     /// </summary>
-    public static float cardGapY = 0.0001f;
+    public static float cardGapY = 0.1f;
 
     /// <summary>
     /// Z方向のカードのズレ
@@ -292,13 +292,16 @@ public class GameManager : MonoBehaviour
             // 移動先
             var targetPos = new Vector3(deckPos.x, deckPos.y + (index + 1) * cardGapY, deckPos.z + cardStartPosZ + index * cardGapZ);
             var stop = false;
+
             this.UpdateAsObservable()
                 .TakeWhile(_ => !stop)
                 .Subscribe(_ =>
                 {
                     moveCard.transform.position = Vector3.MoveTowards(moveCard.transform.position, targetPos, cardMoveSpeed);
-                    if (moveCard.transform.position == targetPos)
+                    if (moveCard.transform.position.x == targetPos.x)
+                    {
                         stop = true;
+                    }
                 });
         }
 
@@ -367,6 +370,7 @@ public class GameManager : MonoBehaviour
 
     public void OnClickRePlayButton()
     {
+        Debug.Log("click");
         SceneManager.LoadScene("SampleScene");
     }
 }

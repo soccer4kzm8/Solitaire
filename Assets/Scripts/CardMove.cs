@@ -8,6 +8,7 @@ using System;
 
 public class CardMove : MonoBehaviour
 {
+    [SerializeField] private CardFlip _cardFlip = null;
     /// <summary>rayとの交点を求めるためのplane</summary>
     private Plane plane;
 
@@ -42,7 +43,7 @@ public class CardMove : MonoBehaviour
 
     private void Start()
     {
-        plane = new Plane(Vector3.up, Vector3.up);
+        plane = new Plane(Vector3.up, new Vector3(0, 100, 0));
     }
 
     private void Update()
@@ -101,7 +102,7 @@ public class CardMove : MonoBehaviour
         // cardDeckがクリックされたら場合
         if (hitOrderedObjs.Any(value => value.collider.name == "cardDeck"))
         {
-            CardFlip.OnClick_CardDeck();
+            _cardFlip.OnClick_CardDeck();
         }
         else
         {
@@ -279,7 +280,7 @@ public class CardMove : MonoBehaviour
         foreach (var hitFacedUpCard in grabbedCards)
         {
             var mousePos = ray.GetPoint(rayDistance);
-            hitFacedUpCard.transform.position = new Vector3(mousePos.x, mousePos.y + indexForGap * GameManager.cardGapY, mousePos.z + indexForGap * GameManager.cardGapZ);
+            hitFacedUpCard.transform.position = new Vector3(mousePos.x, 100f + indexForGap * GameManager.cardGapY, mousePos.z + indexForGap * GameManager.cardGapZ);
             indexForGap++;
         }
 

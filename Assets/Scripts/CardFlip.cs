@@ -26,7 +26,7 @@ public class CardFlip : MonoBehaviour
     /// <summary>
     /// カードデッキクリックの挙動
     /// </summary>
-    public static void OnClick_CardDeck()
+    public void OnClick_CardDeck()
     {
         int cardDeckIndex = GetDeckIndex("cardDeck");
         int graveDeckIndex = GetDeckIndex("graveDeck");
@@ -37,7 +37,6 @@ public class CardFlip : MonoBehaviour
             Vector3 _graveDeckPos = gameManager._grave.transform.position;
             // カードをデッキから墓地へ移動
             GameManager.deckList[cardDeckIndex].Value[0].transform.position = new Vector3(_graveDeckPos.x, _graveDeckPos.y + (GameManager.graveDeck.Count + 1) * _cardGapY, _graveDeckPos.z);
-            //GameManager.deckList[cardDeckIndex].Value[0].transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             // 移動したカードを墓地デッキリストへ追加
             GameManager.deckList[graveDeckIndex].Value.Add(GameManager.deckList[cardDeckIndex].Value[0]);
             // 移動したカードはデッキリストから削除
